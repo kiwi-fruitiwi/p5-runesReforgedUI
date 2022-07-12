@@ -1,18 +1,65 @@
 /**
- *  @author kiwi
- *  @date 2022.07.10
- *
+ @author kiwi
+ @date 2022.07.10
+
+ [
+     {
+        'id': 8000,
+        'key': 'Precision',
+        'icon': iconURI,
+        'name': Precision',
+        'slots': [
+            {
+                'runes': [
+                    {
+                        'id': 8005,
+                        'key': "PressTheAttack",
+                        'icon': imgURI,
+                        'name': 'Press the Attack',
+                        'shortDesc': blurb,
+                        'longDesc': blurb
+                    },
+                    {
+                        'id': 8005,
+                        'key': "LethalTempo",
+                        ...
+                    },
+                ]
+            }
+        ]
+     },
+     ...,
+     {}
+ ]
+
  */
 
 let font
 let instructions
 let debugCorner /* output debug text in the bottom left corner of the canvas */
 
+let rootURI = 'https://ddragon.leagueoflegends.com/cdn/12.12.1/data/en_US/'
+let runesPath = 'runesReforged.json'
+
+let runesReforged
+let runeObj /* compiled data filled in via JSON */
 
 function preload() {
     font = loadFont('data/consola.ttf')
+    let req = rootURI + runesPath
+    runesReforged = loadJSON(req)
 }
 
+/**
+ coding plan
+ ☒ load runes reforged JSON
+ ☒ output 5 branch names
+ ☐ display precision tree 4 major slots
+ ☐ display domination image
+ ☐ display array of 5 images
+ ☐
+
+ */
 
 function setup() {
     let cnv = createCanvas(600, 300)
@@ -26,6 +73,20 @@ function setup() {
         numpad 1 → freeze sketch</pre>`)
 
     debugCorner = new CanvasDebugCorner(5)
+
+    /* the runes reforged JSON is actually an array */
+    // for (const mainBranch of Object.keys(runesReforged)) {}
+
+    const branches = []
+    for (const index in runesReforged) {
+        /* this returns {id: 8100, key: 'Domination', icon: etc} */
+        branches.push(runesReforged[index])
+    }
+
+    for (const branch of branches) {
+        console.log(branch['name'])
+
+    }
 }
 
 
@@ -69,7 +130,6 @@ class CanvasDebugCorner {
 
     show() {
         textFont(font, 14)
-        strokeWeight(1)
 
         const LEFT_MARGIN = 10
         const DEBUG_Y_OFFSET = height - 10 /* floor of debug corner */
@@ -77,11 +137,14 @@ class CanvasDebugCorner {
         const LINE_HEIGHT = textAscent() + textDescent() + LINE_SPACING
 
         /* semi-transparent background */
-        fill(0, 0, 0, 50)
+        fill(0, 0, 0, 10)
         rectMode(CORNERS)
+        const TOP_PADDING = 3 /* extra padding on top of the 1st line */
         rect(
-            0, height,
-            width, DEBUG_Y_OFFSET - LINE_HEIGHT * this.debugMsgList.length
+            0,
+            height,
+            width,
+            DEBUG_Y_OFFSET - LINE_HEIGHT*this.debugMsgList.length - TOP_PADDING
         )
 
         fill(0, 0, 100, 100) /* white */
