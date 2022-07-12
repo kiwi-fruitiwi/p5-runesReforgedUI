@@ -8,7 +8,7 @@
         'key': 'Precision',
         'icon': iconURI,
         'name': Precision',
-        'slots': [
+        'slots': [ ← list of objects with a single key, 'runes'
             {
                 'runes': [
                     {
@@ -79,23 +79,38 @@ function setup() {
 
     debugCorner = new CanvasDebugCorner(5)
 
-    /* the runes reforged JSON is actually an array */
-    // for (const mainBranch of Object.keys(runesReforged)) {}
+    // for (const path of Object.keys(runesReforged)) {}
 
-    const branches = []
+    /* runesReforged.JSON is actually a 5-object array, one for each path */
+    const paths = []
     for (const index in runesReforged) {
         /* this returns {id: 8100, key: 'Domination', icon: etc} */
-        branches.push(runesReforged[index])
+        paths.push(runesReforged[index])
     }
 
-    for (const branch of branches) {
-        console.log(`branch name → ${branch['name']}`)
+    for (const path of paths) {
+        console.log(`path name → ${path['name']}`)
 
-        /* each branch has 4 sets of runes with keystone at top */
-        let slots = branch['slots']
-
+        /*
+            each path has 4 sets of runes with keystone at top
+            each path has a key, 'slots':
+                list of objects with a single key, 'runes'
+                keystone is the 1st of 4 slots
+         */
+        let slots = path['slots']
         for (const slotIndex in slots) {
-            console.log(slots[slotIndex])
+            const slot = slots[slotIndex]
+            const runesPerSlot = Object.keys(slot['runes']).length
+            console.log(`» ${path['name']}, tier ${int(slotIndex)+1} → ${runesPerSlot} runes`)
+
+            for (const runeIndex in Object.keys(slot['runes'])) {
+                const rune = slot['runes'][runeIndex]
+                if (int(slotIndex) === 0) {
+                    console.log(`🗝️: ${rune['name']}`)
+                } else {
+                    console.log(`${rune['name']}`)
+                }
+            }
         }
     }
 }
