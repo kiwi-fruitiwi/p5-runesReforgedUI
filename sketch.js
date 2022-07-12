@@ -84,8 +84,14 @@ function setup() {
     }
 
     for (const branch of branches) {
-        console.log(branch['name'])
+        console.log(`branch name → ${branch['name']}`)
 
+        /* each branch has 4 sets of runes with keystone at top */
+        let slots = branch['slots']
+
+        for (const slotIndex in slots) {
+            console.log(slots[slotIndex])
+        }
     }
 }
 
