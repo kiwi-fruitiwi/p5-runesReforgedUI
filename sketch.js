@@ -51,13 +51,18 @@ function preload() {
 }
 
 /**
+ "After you have selected your Primary Path you can select two Runes from the
+ Secondary Path you have chosen. This Secondary Path doesn't provides you
+ with a Keystone Rune unlike the Primary Path."
+
  coding plan
  ☒ load runes reforged JSON
  ☒ output 5 branch names
- ☐ display precision tree 4 major slots
- ☐ display domination image
+ ☐ output all slot names
+
+ ☐ display one image
+ ☐ display domination tree images
  ☐ display array of 5 images
- ☐
 
  */
 
